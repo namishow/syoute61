@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>日本史探究 小テスト：満州事変と政党政治の崩壊</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'M PLUS Rounded 1c', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #311042 100%);
+            min-height: 100vh;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+        }
+    </style>
+</head>
+<body class="text-gray-800 flex flex-col justify-between min-h-screen p-3 md:p-6">
+
+    <!-- Header -->
+    <header class="max-w-3xl mx-auto w-full text-center my-4">
+        <div class="inline-block bg-amber-400 text-amber-950 text-xs font-bold px-3 py-1 rounded-full mb-2 shadow">
+            <i class="fa-solid fa-graduation-cap mr-1"></i> 高校日本史探究 プリントNo.61 対応
+        </div>
+        <h1 class="text-2xl md:text-4xl font-extrabold text-white tracking-wide shadow-text flex items-center justify-center gap-2">
+            <span>満州事変と政党政治の崩壊</span>
+        </h1>
+        <p class="text-indigo-200 text-xs md:text-sm mt-1">マスターして定期テスト・大学受験を完全攻略！</p>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-2xl mx-auto w-full flex-grow flex items-center justify-center">
+
+        <!-- START SCREEN -->
+        <div id="start-screen" class="glass-card rounded-3xl p-6 md:p-10 shadow-2xl w-full text-center transition-all duration-300">
+            <div class="text-5xl md:text-6xl text-indigo-600 mb-4">
+                <i class="fa-solid fa-landmark"></i>
+            </div>
+            <h2 class="text-2xl font-extrabold text-gray-800 mb-2">日本史爆速トレーニング</h2>
+            <p class="text-gray-600 text-sm mb-6 leading-relaxed">
+                全12問の選択クイズです。<br>
+                満州事変の経過、満州国、連盟脱退、五・一五＆二・二六事件を網羅！
+            </p>
+
+            <div class="bg-indigo-50 rounded-2xl p-4 mb-6 text-left border border-indigo-100">
+                <h3 class="font-bold text-indigo-900 text-sm mb-2 flex items-center gap-1">
+                    <i class="fa-solid fa-bolt text-amber-500"></i> このアプリの特徴
+                </h3>
+                <ul class="text-xs text-indigo-800 space-y-1.5">
+                    <li><i class="fa-solid fa-check text-green-500 mr-1"></i> 正解・不正解の効果音（BGM）付き！</li>
+                    <li><i class="fa-solid fa-check text-green-500 mr-1"></i> 語呂合わせ「さ・お・ひ・は...」ヒントも搭載</li>
+                    <li><i class="fa-solid fa-check text-green-500 mr-1"></i> 丁寧な解説でそのまま復習可能</li>
+                </ul>
+            </div>
+
+            <button onclick="startQuiz()" class="pulse-animation w-full bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-black text-lg py-4 px-8 rounded-2xl shadow-lg hover:shadow-indigo-500/50 transition-all flex items-center justify-center gap-2">
+                <i class="fa-solid fa-play"></i> テストを開始する！
+            </button>
+        </div>
+
+        <!-- QUIZ SCREEN -->
+        <div id="quiz-screen" class="glass-card rounded-3xl p-5 md:p-8 shadow-2xl w-full hidden transition-all duration-300">
+            <!-- Progress & Stats -->
+            <div class="flex justify-between items-center mb-4 pb-3 border-b border-gray-200">
+                <div class="flex items-center gap-2">
+                    <span id="question-number" class="bg-indigo-600 text-white text-xs font-bold px-3 py-1 rounded-full">Q.1 / 12</span>
+                    <span id="combo-badge" class="hidden bg-amber-500 text-white text-xs font-bold px-2 py-1 rounded-full animate-bounce">
+                        <i class="fa-solid fa-fire"></i> <span id="combo-count">0</span> コンボ!
+                    </span>
+                </div>
+                <div class="text-sm font-bold text-gray-600">
+                    スコア: <span id="current-score" class="text-indigo-600 font-black text-lg">0</span>
+                </div>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="w-full bg-gray-200 rounded-full h-2 mb-6 overflow-hidden">
+                <div id="progress-bar" class="bg-indigo-600 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+            </div>
+
+            <!-- Question Text -->
+            <div class="mb-6">
+                <span id="question-category" class="text-xs font-bold text-indigo-500 tracking-wider uppercase">満州事変の背景</span>
+                <h3 id="question-text" class="text-lg md:text-xl font-bold text-gray-800 mt-1 leading-snug">
+                    問題文がここに入ります。
+                </h3>
+            </div>
+
+            <!-- Options -->
+            <div id="options-container" class="space-y-3 mb-6">
+                <!-- Option buttons will be generated by JS -->
+            </div>
+
+            <!-- Feedback Area (Explanation) -->
+            <div id="explanation-card" class="hidden bg-slate-800 text-white rounded-2xl p-4 mb-4 border border-slate-700 animate-fade-in">
+                <div class="flex items-center gap-2 mb-1">
+                    <span id="result-icon" class="text-xl"></span>
+                    <h4 id="result-text" class="font-extrabold text-base">正解！</h4>
+                </div>
+                <p id="explanation-text" class="text-xs md:text-sm text-slate-300 leading-relaxed">
+                    解説文がここに入ります。
+                </p>
+            </div>
+
+            <!-- Next Button -->
+            <button id="next-btn" onclick="nextQuestion()" class="hidden w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3 px-6 rounded-xl shadow transition-all flex items-center justify-center gap-2">
+                次へ進む <i class="fa-solid fa-arrow-right"></i>
+            </button>
+        </div>
+
+        <!-- RESULT SCREEN -->
+        <div id="result-screen" class="glass-card rounded-3xl p-6 md:p-10 shadow-2xl w-full text-center hidden transition-all duration-300">
+            <div id="result-badge" class="inline-block p-4 rounded-full bg-amber-100 text-amber-500 text-4xl mb-3 shadow-inner">
+                <i class="fa-solid fa-trophy"></i>
+            </div>
+            <h2 class="text-2xl font-black text-gray-800 mb-1">テスト結果</h2>
+            <p id="result-rank" class="text-sm font-bold text-indigo-600 mb-4">ランク判定中...</p>
+
+            <div class="bg-indigo-50/80 rounded-2xl p-6 mb-6">
+                <div class="text-xs text-indigo-600 font-bold uppercase tracking-wider mb-1">最終スコア</div>
+                <div class="text-5xl font-black text-indigo-900 mb-2">
+                    <span id="final-score">0</span> <span class="text-lg font-normal text-indigo-700">/ 100 点</span>
+                </div>
+                <p id="correct-count-text" class="text-xs text-indigo-800">12問中 0問 正解</p>
+            </div>
+
+            <div id="result-comment" class="bg-white p-4 rounded-xl border border-gray-200 text-xs md:text-sm text-gray-700 mb-6 text-left leading-relaxed">
+                コメント
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-3">
+                <button onclick="startQuiz()" class="flex-1 bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 px-4 rounded-xl shadow transition-all flex items-center justify-center gap-2 text-sm">
+                    <i class="fa-solid fa-rotate-right"></i> もう一度挑戦
+                </button>
+                <button onclick="toggleMnemonicsModal()" class="flex-1 bg-amber-500 hover:bg-amber-400 text-white font-bold py-3 px-4 rounded-xl shadow transition-all flex items-center justify-center gap-2 text-sm">
+                    <i class="fa-solid fa-lightbulb"></i> 首相語呂合わせを見る
+                </button>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Mnemonics Modal (語呂合わせ) -->
+    <div id="mnemonics-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl relative max-h-[85vh] overflow-y-auto">
+            <button onclick="toggleMnemonicsModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-xl">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h3 class="text-xl font-black text-gray-800 mb-2 flex items-center gap-2">
+                <i class="fa-solid fa-key text-amber-500"></i> 歴代首相の超絶語呂合わせ
+            </h3>
+            <p class="text-xs text-gray-500 mb-4">授業プリント記載の必須覚え方キーワード！</p>
+
+            <div class="bg-amber-50 border-2 border-amber-200 rounded-2xl p-4 mb-4">
+                <p class="text-amber-900 font-extrabold text-center text-lg tracking-widest mb-1">
+                    さ・お・ひ・は・こ・ひ・あ・よ・こ・こ・と・こ・す
+                </p>
+                <p class="text-xs text-amber-800 text-center">（斎藤〜鈴木貫太郎までの昭和軍事・戦時内閣の流れ）</p>
+            </div>
+
+            <div class="space-y-2 text-xs md:text-sm text-gray-700">
+                <div class="p-2 bg-gray-50 rounded border"><span class="font-bold text-indigo-600">さ</span>：斎藤実（日満議定書・連盟脱退）</div>
+                <div class="p-2 bg-gray-50 rounded border"><span class="font-bold text-indigo-600">お</span>：岡田啓介（二・二六事件）</div>
+                <div class="p-2 bg-gray-50 rounded border"><span class="font-bold text-indigo-600">ひ</span>：広田弘毅（軍部大臣現役武官制復活）</div>
+                <div class="p-2 bg-gray-50 rounded border"><span class="font-bold text-indigo-600">は</span>：林銑十郎</div>
+                <div class="p-2 bg-gray-50 rounded border"><span class="font-bold text-indigo-600">こ</span>：近衛文麿（第1次：日中戦争開始）</div>
+                <div class="p-2 bg-gray-50 rounded border"><span class="font-bold text-indigo-600">ひ</span>：平沼騏一郎（ノモンハン事件）</div>
+                <div class="p-2 bg-gray-50 rounded border"><span class="font-bold text-indigo-600">あ</span>：阿部信行</div>
+                <div class="p-2 bg-gray-50 rounded border"><span class="font-bold text-indigo-600">よ</span>：米内光政</div>
+                <div class="p-2 bg-gray-50 rounded border"><span class="font-bold text-indigo-600">こ</span>：近衛文麿（第2次・第3次）</div>
+                <div class="p-2 bg-gray-50 rounded border"><span class="font-bold text-indigo-600">と</span>：東条英機（太平洋戦争開戦）</div>
+                <div class="p-2 bg-gray-50 rounded border"><span class="font-bold text-indigo-600">こ</span>：小磯國昭</div>
+                <div class="p-2 bg-gray-50 rounded border"><span class="font-bold text-indigo-600">す</span>：鈴木貫太郎（終戦）</div>
+            </div>
+
+            <button onclick="toggleMnemonicsModal()" class="w-full mt-6 bg-slate-800 text-white font-bold py-2.5 rounded-xl text-sm">
+                閉じる
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center text-xs text-indigo-300 py-4">
+        日本史探究 授業サポートアプリ | Created for High School Students
+    </footer>
+
+    <!-- JavaScript Quiz Logic & Sound Synth -->
+    <script>
+        // ==========================================
+        // Sound System (Web Audio API - Synthesizer)
+        // ==========================================
+        class SoundFX {
+            constructor() {
+                this.ctx = null;
+            }
+
+            init() {
+                if (!this.ctx) {
+                    this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+            }
+
+            // Correct Sound (Fanfare/Ping-pong)
+            playCorrect() {
+                this.init();
+                const now = this.ctx.currentTime;
+                
+                const osc1 = this.ctx.createOscillator();
+                const osc2 = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+
+                osc1.type = 'sine';
+                osc2.type = 'triangle';
+
+                // E5 -> A5
+                osc1.frequency.setValueAtTime(659.25, now); 
+                osc1.frequency.setValueAtTime(880, now + 0.1); 
+
+                osc2.frequency.setValueAtTime(659.25, now);
+                osc2.frequency.setValueAtTime(880, now + 0.1);
+
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+
+                osc1.connect(gain);
+                osc2.connect(gain);
+                gain.connect(this.ctx.destination);
+
+                osc1.start(now);
+                osc2.start(now);
+                osc1.stop(now + 0.4);
+                osc2.stop(now + 0.4);
+            }
+
+            // Wrong Sound (Buzzer)
+            playWrong() {
+                this.init();
+                const now = this.ctx.currentTime;
+
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(150, now);
+                osc.frequency.setValueAtTime(120, now + 0.15);
+
+                gain.gain.setValueAtTime(0.3, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+
+                osc.start(now);
+                osc.stop(now + 0.4);
+            }
+
+            // Finish Fanfare
+            playFinish() {
+                this.init();
+                const now = this.ctx.currentTime;
+                const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
+
+                notes.forEach((freq, index) => {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(freq, now + index * 0.12);
+
+                    gain.gain.setValueAtTime(0.2, now + index * 0.12);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + index * 0.12 + 0.5);
+
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+
+                    osc.start(now + index * 0.12);
+                    osc.stop(now + index * 0.12 + 0.5);
+                });
+            }
+        }
+
+        const sound = new SoundFX();
+
+        // ==========================================
+        // Quiz Data (Based strictly on PDF No.61)
+        // ==========================================
+        const quizData = [
+            {
+                category: "1. 満州事変の背景",
+                question: "1928年、日本の満蒙権益に対する国権回復運動が高まる中、国民政府に合流した満州軍閥の人物は誰か？",
+                options: ["張作霖", "張学良", "蔣介石", "溥儀"],
+                answer: 1,
+                explanation: "張作霖爆殺事件の後、子の張学良は易幟（えきし）を行って国民政府（蔣介石）に合流し、日本の満州における権益回収運動を進めました。"
+            },
+            {
+                category: "2. 関東軍の謀略",
+                question: "1931年9月18日、奉天郊外で満鉄の線路が爆破され満州事変のきっかけとなった事件は何か？",
+                options: ["柳条湖事件", "盧溝橋事件", "第一次上海事変", "済南事件"],
+                answer: 0,
+                explanation: "関東軍の石原莞爾らの謀略により行われた「柳条湖（りゅうじょうこ）事件」が満州事変の発端です。（盧溝橋事件は1937年の日中戦争の発端）"
+            },
+            {
+                category: "3. 関東軍の思想",
+                question: "柳条湖事件を主導した関東軍作戦参謀・石原莞爾が唱えた、日米による世界決戦を予測した理論は何か？",
+                options: ["国体明徴声明", "世界最終戦論", "華北分離工作", "国家改造論"],
+                answer: 1,
+                explanation: "石原莞爾は「世界最終戦論」を唱え、西洋（アメリカ）と東洋（日本）の最終戦争に備えて満蒙（満州・蒙古）の領有・占領が必要だと考えました。"
+            },
+            {
+                category: "4. 満州国の建国",
+                question: "1932年3月に建国された「満州国」において、元・清朝最後の皇帝で元首（執政→のち皇帝）に就任した人物は誰か？",
+                options: ["袁世凱", "孫文", "溥儀", "張学良"],
+                answer: 2,
+                explanation: "清朝最後の皇帝であった「溥儀（ふぎ）」が、1932年に執政となり、1934年の帝政実施により皇帝となりました。"
+            },
+            {
+                category: "5. 日本政府の対応",
+                question: "1932年9月に「日満議定書」を締結して「満州国」を正式に承認した日本の内閣はどれか？",
+                options: ["第2次若槻礼次郎内閣", "犬養毅内閣", "斎藤実内閣", "岡田啓介内閣"],
+                answer: 2,
+                explanation: "五・一五事件後に成立した海軍出身の「斎藤実（さいとうまこと）」挙国一致内閣が、日満議定書を締結して満州国を承認しました。"
+            },
+            {
+                category: "6. 国際連盟の対応",
+                question: "満州事変の現地調査のために現地へ派遣され、「日本の軍事行動は正当な自衛とは認められない」とする報告書を提出した調査団は何か？",
+                options: ["リットン調査団", "ウェルズ調査団", "ダンツィヒ調査団", "マーシャル調査団"],
+                answer: 0,
+                explanation: "国際連盟から派遣された「リットン調査団」（総長リットン）は、日本の経済的権益は認めつつも、日本の軍事行動を自衛とは認めず撤兵勧告を出しました。"
+            },
+            {
+                category: "7. 国際連盟脱退",
+                question: "1933年2月の連盟総会でリットン報告書が賛成多数（42対1）で採択された後、日本がとった行動として正しいものはどれか？",
+                options: ["塘沽停戦協定を破棄した", "国際連盟脱退を通告した（1933年3月）", "満州国を解体した", "ワシントン条約を即座に締結した"],
+                answer: 1,
+                explanation: "連盟総会で「満州国否認と撤兵勧告」が採択（反対は日本のみの42対1）されたため、松岡洋右全権らは退出ののち、1933年3月に国際連盟脱退を通告しました。"
+            },
+            {
+                category: "8. 経済政策",
+                question: "犬養毅内閣の大蔵大臣として、金輸出再禁止を行い、管理通貨制度へ移行してデフレ脱却を図った人物は誰か？",
+                options: ["高橋是清", "井上準之助", "馬場鍈一", "三土忠造"],
+                answer: 0,
+                explanation: "「高橋是清（たかはしこれきよ）」蔵相は、金輸出再禁止や積極的な財政出動（高橋財政）を行い、日本経済を世界に先駆けて世界恐慌から脱出させました。"
+            },
+            {
+                category: "9. 政党政治の崩壊",
+                question: "1932年5月15日、海軍青年将校らが首相官邸を襲撃し、犬養毅首相（「話せば分かる」）を殺害した事件は何か？",
+                options: ["二・二六事件", "五・一五事件", "三月事件", "血盟団事件"],
+                answer: 1,
+                explanation: "1932年の「五・一五事件」により犬養毅首相が射殺され、加藤高明内閣以来続いていた「憲政の常道（政党内閣制）」は途絶えました。"
+            },
+            {
+                category: "10. 軍部の台頭",
+                question: "1936年2月26日、陸軍青年将校（皇道派）らが起こしたクーデター未遂事件で、殺害された人物の組み合わせとして正しいものはどれか？",
+                options: [
+                    "犬養毅・高橋是清",
+                    "高橋是清・斎藤実・渡辺錠太郎",
+                    "岡田啓介・鈴木貫太郎",
+                    "石原莞爾・荒木貞夫"
+                ],
+                answer: 1,
+                explanation: "二・二六事件では高橋是清（蔵相）、斎藤実（内大臣）、渡辺錠太郎（教育総監）らが殺害されました。岡田啓介首相は無事でした。"
+            },
+            {
+                category: "11. 岡田啓介内閣の出来事",
+                question: "岡田啓介内閣期に美濃部達吉の憲法学説が攻撃され、政府が「国体明徴声明」を出す事態となった問題は何か？",
+                options: ["天皇機関説問題", "帝人事件", "滝川事件", "統帥権干犯問題"],
+                answer: 0,
+                explanation: "美濃部達吉の「天皇機関説」が軍部や右翼から攻撃を受け、岡田内閣は「国体明徴声明」を出して天皇機関説を公式に否定・排除せざるを得なくなりました。"
+            },
+            {
+                category: "12. 満州国の実態",
+                question: "満州国の政治機構において、実質的な権限を握っていた総務庁長官などの主要ポストに就任していたのはどの立場の人々か？",
+                options: ["清朝の元皇族", "中国国民党の幹部", "日本人", "国際連盟の監察官"],
+                answer: 2,
+                explanation: "満州国は形式上多民族国家とされましたが、実質的には総務庁長官をはじめ各部の次官などに「日本人」が就任し、関東軍が統治を実質支配（内面指導）していました。"
+            }
+        ];
+
+        // ==========================================
+        // App State Variables
+        // ==========================================
+        let currentIdx = 0;
+        let score = 0;
+        let combo = 0;
+        let correctNum = 0;
+        let isAnswered = false;
+
+        // ==========================================
+        // DOM Elements
+        // ==========================================
+        const startScreen = document.getElementById('start-screen');
+        const quizScreen = document.getElementById('quiz-screen');
+        const resultScreen = document.getElementById('result-screen');
+
+        const questionNumber = document.getElementById('question-number');
+        const comboBadge = document.getElementById('combo-badge');
+        const comboCount = document.getElementById('combo-count');
+        const currentScoreEl = document.getElementById('current-score');
+        const progressBar = document.getElementById('progress-bar');
+        const questionCategory = document.getElementById('question-category');
+        const questionText = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+
+        const explanationCard = document.getElementById('explanation-card');
+        const resultIcon = document.getElementById('result-icon');
+        const resultText = document.getElementById('result-text');
+        const explanationText = document.getElementById('explanation-text');
+        const nextBtn = document.getElementById('next-btn');
+
+        // ==========================================
+        // Functions
+        // ==========================================
+        function startQuiz() {
+            currentIdx = 0;
+            score = 0;
+            combo = 0;
+            correctNum = 0;
+            isAnswered = false;
+
+            startScreen.classList.add('hidden');
+            resultScreen.classList.add('hidden');
+            quizScreen.classList.remove('hidden');
+
+            showQuestion();
+        }
+
+        function showQuestion() {
+            isAnswered = false;
+            const q = quizData[currentIdx];
+
+            // Header UI update
+            questionNumber.textContent = `Q.${currentIdx + 1} / ${quizData.length}`;
+            currentScoreEl.textContent = score;
+            progressBar.style.width = `${((currentIdx) / quizData.length) * 100}%`;
+
+            if (combo > 1) {
+                comboBadge.classList.remove('hidden');
+                comboCount.textContent = combo;
+            } else {
+                comboBadge.classList.add('hidden');
+            }
+
+            // Question Content
+            questionCategory.textContent = q.category;
+            questionText.textContent = q.question;
+
+            // Reset Options & Explanation
+            optionsContainer.innerHTML = '';
+            explanationCard.classList.add('hidden');
+            nextBtn.classList.add('hidden');
+
+            // Render Options
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = `w-full text-left p-4 rounded-2xl font-bold text-sm md:text-base transition-all duration-200 border-2 border-gray-200 bg-white hover:border-indigo-400 hover:bg-indigo-50/50 flex justify-between items-center group shadow-sm`;
+                btn.innerHTML = `
+                    <span><span class="inline-block w-6 h-6 rounded-full bg-gray-100 text-gray-600 text-xs text-center leading-6 mr-2 group-hover:bg-indigo-600 group-hover:text-white">${idx + 1}</span>${opt}</span>
+                    <i class="fa-regular fa-circle text-gray-300 group-hover:text-indigo-400"></i>
+                `;
+                btn.onclick = () => checkAnswer(idx, btn);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(selectedIdx, selectedBtn) {
+            if (isAnswered) return;
+            isAnswered = true;
+
+            const q = quizData[currentIdx];
+            const buttons = optionsContainer.querySelectorAll('button');
+
+            // Disable all buttons
+            buttons.forEach(btn => btn.disabled = true);
+
+            if (selectedIdx === q.answer) {
+                // Correct
+                sound.playCorrect();
+                correctNum++;
+                combo++;
+                const gainedScore = 10 + (combo > 1 ? combo * 2 : 0);
+                score += gainedScore;
+
+                selectedBtn.className = "w-full text-left p-4 rounded-2xl font-bold text-sm md:text-base border-2 border-emerald-500 bg-emerald-50 text-emerald-900 flex justify-between items-center shadow";
+                selectedBtn.querySelector('i').className = "fa-solid fa-circle-check text-emerald-600 text-xl";
+
+                resultIcon.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400"></i>`;
+                resultText.textContent = `正解！ (+${gainedScore}pt)`;
+                resultText.className = "font-extrabold text-base text-emerald-400";
+            } else {
+                // Wrong
+                sound.playWrong();
+                combo = 0;
+
+                selectedBtn.className = "w-full text-left p-4 rounded-2xl font-bold text-sm md:text-base border-2 border-rose-500 bg-rose-50 text-rose-900 flex justify-between items-center shadow";
+                selectedBtn.querySelector('i').className = "fa-solid fa-circle-xmark text-rose-600 text-xl";
+
+                // Highlight correct answer
+                const correctBtn = buttons[q.answer];
+                correctBtn.className = "w-full text-left p-4 rounded-2xl font-bold text-sm md:text-base border-2 border-emerald-500 bg-emerald-50 text-emerald-900 flex justify-between items-center shadow";
+                correctBtn.querySelector('i').className = "fa-solid fa-circle-check text-emerald-600 text-xl";
+
+                resultIcon.innerHTML = `<i class="fa-solid fa-circle-xmark text-rose-400"></i>`;
+                resultText.textContent = "不正解...";
+                resultText.className = "font-extrabold text-base text-rose-400";
+            }
+
+            // Show explanation
+            explanationText.textContent = q.explanation;
+            explanationCard.classList.remove('hidden');
+            nextBtn.classList.remove('hidden');
+
+            // Update score
+            currentScoreEl.textContent = score;
+        }
+
+        function nextQuestion() {
+            currentIdx++;
+            if (currentIdx < quizData.length) {
+                showQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function showResult() {
+            quizScreen.classList.add('hidden');
+            resultScreen.classList.remove('hidden');
+
+            sound.playFinish();
+
+            const finalScoreEl = document.getElementById('final-score');
+            const correctCountText = document.getElementById('correct-count-text');
+            const resultRank = document.getElementById('result-rank');
+            const resultComment = document.getElementById('result-comment');
+            const resultBadge = document.getElementById('result-badge');
+
+            // Convert score out of 100
+            const calculatedScore = Math.min(100, Math.round((correctNum / quizData.length) * 100));
+            finalScoreEl.textContent = calculatedScore;
+            correctCountText.textContent = `${quizData.length}問中 ${correctNum}問 正解`;
+
+            // Rank Judgment
+            if (calculatedScore === 100) {
+                resultRank.textContent = "🏆 ランク：日本史マスター（SS級）";
+                resultBadge.className = "inline-block p-4 rounded-full bg-amber-100 text-amber-500 text-5xl mb-3 shadow-inner";
+                resultComment.innerHTML = `<strong>素晴らしい全問正解です！</strong><br>満州事変から二・二六事件までの流れ、内閣の変遷（斎藤実・岡田啓介）が完璧に整理できています。定期テスト・共通テストでも確実に得点源にできます！`;
+            } else if (calculatedScore >= 80) {
+                resultRank.textContent = "🥇 ランク：歴史通（A級）";
+                resultBadge.className = "inline-block p-4 rounded-full bg-indigo-100 text-indigo-600 text-5xl mb-3 shadow-inner";
+                resultComment.innerHTML = `<strong>かなりの高得点です！</strong><br>用語の大部分を理解できています。間違えた問題の解説（特に五・一五事件と二・二六事件の違いなど）を再確認すれば完璧です。`;
+            } else if (calculatedScore >= 50) {
+                resultRank.textContent = "🥈 ランク：見習い研究員（B級）";
+                resultBadge.className = "inline-block p-4 rounded-full bg-slate-100 text-slate-600 text-5xl mb-3 shadow-inner";
+                resultComment.innerHTML = `<strong>まずまずの成績です！</strong><br>満州事変の流れ（柳条湖事件→満州国建国→連盟脱退）や、首相の語呂合わせ「さ・お・ひ・は...」を復習してもう一度チャレンジしてみましょう！`;
+            } else {
+                resultRank.textContent = "🥉 ランク：復習が必要！（C級）";
+                resultBadge.className = "inline-block p-4 rounded-full bg-rose-100 text-rose-500 text-5xl mb-3 shadow-inner";
+                resultComment.innerHTML = `<strong>伸びしろがたくさんあります！</strong><br>まずは授業プリントNo.61の赤字部分を中心に読み直し、もう一度テストに挑戦して知識を定着させましょう！`;
+            }
+        }
+
+        function toggleMnemonicsModal() {
+            const modal = document.getElementById('mnemonics-modal');
+            modal.classList.toggle('hidden');
+        }
+    </script>
+</body>
+</html>
